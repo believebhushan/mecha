@@ -1,6 +1,6 @@
 databases:
   - name: postgres
-    isIpAllowList: []
+    ipAllowList: []
 
 services:
   - type: web
@@ -17,7 +17,7 @@ services:
         sync: false
   - type: redis
     name: redis
-    isIpAllowList: []
+    ipAllowList: []
     plan: free
     maxmemoryPolicy: noenviction
 
