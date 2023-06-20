@@ -29,11 +29,27 @@
       .cta-button:hover {
         background-color: #1a73e8;
       }
+      .feature-list {
+        margin-top: 40px;
+        text-align: left;
+      }
+      .feature-list li {
+        margin-bottom: 10px;
+      }
     </style>
   </head>
   <body>
     <h1>Welcome to <strong>The Start</strong></h1>
-    <%=current_user.email%>
+    <p><%=current_user.email%></p>
     <p>Thank you for visiting! Start exploring the amazing features of our app.</p>
+    <div class="feature-list">
+      <h2>Coming Soon</h2>
+      <ul>
+        <li>AI tools</li>
+        <li>Web Builder</li>
+        <li>Image Creation</li>
+        <li>Live Chat</li>
+      </ul>
+    </div>
   </body>
 </html>
