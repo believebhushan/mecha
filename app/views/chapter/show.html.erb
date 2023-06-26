@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="card mt-4">
+    <div class="card-body">
+      <h1 class="card-title"><%= @chapter.name %></h1>
+      <p class="flow-text">
+        <span class="bg-yellow"><%= @chapter.subject.name %></span>  <%= @chapter.subject.paper.name %>
+      </p>
+      <div class="new-note mt-4">
+        <h3>
+          <button class="btn btn-primary" id="expand-form-btn">Add Note</button>
+        </h3>
+        <div id="note-form" style="display: none;">
+          <%= form_with(model: [@chapter, Note.new], url: notes_path(chapter_id: @chapter.id)) do |form| %>
+            <div class="form-group">
+              <%= form.label :content, "Note Content", class: "text-info" %>
+              <%= form.text_area :content, class: "form-control", placeholder: "Enter your note..." %>
+            </div>
+            <div class="form-group">
+              <%= form.label :link, "Note Links", class: "text-info" %>
+              <%= form.text_field :link, class: "form-control", placeholder: "Enter links (separated by commas)" %>
+            </div>
+            <%= form.submit "Save", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-4">
+    <div class="card-body">
+      <h3 class="card-title">Notes</h3>
+      <ul class="list-group">
+        <% @chapter.notes.each_with_index do |note, index| %>
+          <li class="list-group-item">
+            <div class="note">
+              <p><strong class="text-success">Note <%= index + 1 %>:</strong></p>
+              <p class="note-content"><strong>Content:</strong> <%= note.content %></p>
+              <p class="note-link"><strong>Links:</strong> <a href="<%= note.link %>"><%= note.link %></a></p>
+              <!-- Add Edit and Delete options for each note -->
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var expandBtn = document.getElementById('expand-form-btn');
+    var noteForm = document.getElementById('note-form');
+
+    expandBtn.addEventListener('click', function() {
+      if (noteForm.style.display === 'none') {
+        noteForm.style.display = 'block';
+      } else {
+        noteForm.style.display = 'none';
+      }
+    });
+  });
+</script>
+<style>
+  .bg-yellow {
+    background-color: yellow;
+  }
+  .text-info {
+    color: blue;
+  }
+  .text-success {
+    color: green;
+  }
+  .note-content {
+    color: black;
+  }
+  .note-link {
+    color: purple;
+  }
+  .list-group-item {
+    list-style-type: disc;
+  }
+</style>

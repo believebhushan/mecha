@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Subject Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      /* Add custom styles here */
+      body {
+        background-color: #f8f9fa;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .subject-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      .chapter-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      .chapter-item {
+        margin-bottom: 10px;
+      }
+      .chapter-link {
+        display: block;
+        padding: 10px;
+        background-color: #fff;
+        color: #007bff;
+        text-decoration: none;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .chapter-link:hover {
+        background-color: #f1f5ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="subject-title"><%= @subject.name %></h1>
+      <ul class="chapter-list">
+        <% @chapters.each do |chapter| %>
+          <li class="chapter-item">
+            <a class="chapter-link" href="<%= "/chapter/#{chapter.id}" %>">
+              <%= chapter.name %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </body>
+</html>

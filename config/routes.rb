@@ -5,4 +5,14 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  resources :subject, only: [:index, :show] do
+    # Nested routes for chapters
+  end
+  resources :chapter, only: [:show]
+
+  resources :notes, only: [:create]
+
+
+
+
 end

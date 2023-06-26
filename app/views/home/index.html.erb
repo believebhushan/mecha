@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to My App</title>
+    <title>Granth</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
       /* Add custom CSS here if needed */
+      a {
+        text-decoration: none;
+      }
+      .subject-list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .subject-list li {
+        margin-bottom: 10px;
+      }
+      .subject-list li a {
+        display: block;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        color: #333;
+        transition: background-color 0.3s ease;
+      }
+      .subject-list li a:hover {
+        background-color: #e9ecef;
+      }
     </style>
   </head>
   <body>
-    <h1>Welcome Bharat Bhushan Singh</h1>
-    <p><%= current_user.email %></p>
     <div class="container">
+      <h2>Welcome Bharat Bhushan Singh</h2>
+      <p><%= current_user.email %></p>
       <h2>Papers</h2>
       <div class="accordion" id="papersAccordion">
         <% @papers.each do |paper| %>
           <div class="accordion-item">
             <h3 class="accordion-header" id="heading<%= paper.id %>">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= paper.id %>" aria-expanded="true" aria-controls="collapse<%= paper.id %>">
-                <%= paper.name %>
+                <%= paper.name.split("_").join(" ").capitalize %> <strong style="color:blue;"></strong>
               </button>
             </h3>
             <div id="collapse<%= paper.id %>" class="accordion-collapse collapse" aria-labelledby="heading<%= paper.id %>" data-bs-parent="#papersAccordion">
               <div class="accordion-body">
                 <h4>Subjects</h4>
-                <ul>
+                <ul class="subject-list">
                   <% paper.subjects.each do |subject| %>
-                    <li><%= subject.name %></li>
+                    <li><a href="<%= "/subject/#{subject.id}" %>"><%= subject.name %></a></li>
                   <% end %>
                 </ul>
               </div>
