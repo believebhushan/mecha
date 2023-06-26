@@ -10,9 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_043006) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_155810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "name"
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subject_id"], name: "index_chapters_on_subject_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.text "content"
+    t.text "link"
+    t.bigint "chapter_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_notes_on_chapter_id"
+  end
+
+  create_table "papers", force: :cascade do |t|
+    t.string "name"
+    t.string "combinations", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subjects", force: :cascade do |t|
+    t.string "name"
+    t.bigint "paper_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paper_id"], name: "index_subjects_on_paper_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_043006) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "chapters", "subjects"
+  add_foreign_key "notes", "chapters"
+  add_foreign_key "subjects", "papers"
 end

@@ -2,172 +2,43 @@
 <html>
   <head>
     <title>Welcome to My App</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 20px;
-      }
-      h1 {
-        font-size: 32px;
-        margin-bottom: 20px;
-      }
-      p {
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
-      .cta-button {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 20px;
-        background-color: #4285f4;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-      }
-      .cta-button:hover {
-        background-color: #1a73e8;
-      }
-      .board {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 300px;
-        margin: 20px auto;
-      }
-      .board-cell {
-        width: 100px;
-        height: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid #ccc;
-        font-size: 40px;
-        cursor: pointer;
-      }
-      .board-cell:hover {
-        background-color: #f0f0f0;
-      }
-      .refresh-button {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 20px;
-        background-color: #f44336;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        margin-top: 20px;
-      }
-      .refresh-button:hover {
-        background-color: #d32f2f;
-      }
+      /* Add custom CSS here if needed */
     </style>
   </head>
   <body>
-    <h1>Welcome to <strong>The Game Store </strong></h1>
-    <p><%=current_user.email%></p>
-    <p>Thank you for visiting! Start playing the Tic-Tac-Toe game.</p>
-    <div class="board"></div>
-    <a href="#" class="refresh-button">Refresh</a>
+    <h1>Welcome Bharat Bhushan Singh</h1>
+    <p><%= current_user.email %></p>
+    <div class="container">
+      <h2>Papers</h2>
+      <div class="accordion" id="papersAccordion">
+        <% @papers.each do |paper| %>
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="heading<%= paper.id %>">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= paper.id %>" aria-expanded="true" aria-controls="collapse<%= paper.id %>">
+                <%= paper.name %>
+              </button>
+            </h3>
+            <div id="collapse<%= paper.id %>" class="accordion-collapse collapse" aria-labelledby="heading<%= paper.id %>" data-bs-parent="#papersAccordion">
+              <div class="accordion-body">
+                <h4>Subjects</h4>
+                <ul>
+                  <% paper.subjects.each do |subject| %>
+                    <li><%= subject.name %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <!-- Add Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-      var board = document.querySelector(".board");
-      var cells = [];
-      var currentPlayer = "X";
-      var gameOver = false;
-
-      // Create the board cells
-      for (var i = 0; i < 9; i++) {
-        var cell = document.createElement("div");
-        cell.classList.add("board-cell");
-        cell.addEventListener("click", makeMove);
-        board.appendChild(cell);
-        cells.push(cell);
-      }
-
-      // Handle a player's move
-      function makeMove() {
-        if (!gameOver && this.textContent === "") {
-          this.textContent = currentPlayer;
-          checkWin(currentPlayer);
-          switchPlayer();
-          makeBotMove();
-        }
-      }
-
-      // Switch the current player
-      function switchPlayer() {
-        currentPlayer = currentPlayer === "X" ? "O" : "X";
-      }
-
-      // Handle the bot's move
-      function makeBotMove() {
-        if (!gameOver) {
-          var availableCells = cells.filter(function(cell) {
-            return cell.textContent === "";
-          });
-          var randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
-          randomCell.textContent = currentPlayer;
-          checkWin(currentPlayer);
-          switchPlayer();
-        }
-      }
-
-      // Check if a player has won
-      function checkWin(player) {
-        var winningCombinations = [
-          [0, 1, 2],
-          [3, 4, 5],
-          [6, 7, 8],
-          [0, 3, 6],
-          [1, 4, 7],
-          [2, 5, 8],
-          [0, 4, 8],
-          [2, 4, 6]
-        ];
-
-        for (var i = 0; i < winningCombinations.length; i++) {
-          var [a, b, c] = winningCombinations[i];
-          if (
-            cells[a].textContent === player &&
-            cells[b].textContent === player &&
-            cells[c].textContent === player
-          ) {
-            highlightWinningCells([cells[a], cells[b], cells[c]]);
-            gameOver = true;
-            break;
-          }
-        }
-
-        if (!gameOver && cells.every(function(cell) { return cell.textContent !== ""; })) {
-          // It's a tie
-          gameOver = true;
-          cells.forEach(function(cell) {
-            cell.style.backgroundColor = "lightgray";
-          });
-        }
-      }
-
-      // Highlight the winning cells
-      function highlightWinningCells(cells) {
-        cells.forEach(function(cell) {
-          cell.style.backgroundColor = "lightgreen";
-        });
-      }
-
-      // Reset the game board
-      function resetBoard() {
-        cells.forEach(function(cell) {
-          cell.textContent = "";
-          cell.style.backgroundColor = "";
-        });
-        currentPlayer = "X";
-        gameOver = false;
-      }
-
-      // Add event listener to the refresh button
-      var refreshButton = document.querySelector(".refresh-button");
-      refreshButton.addEventListener("click", resetBoard);
+      // Add custom JavaScript here if needed
     </script>
   </body>
 </html>
