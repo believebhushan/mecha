@@ -49,6 +49,7 @@
                 <ul class="subject-list">
                   <% paper.subjects.each do |subject| %>
                     <li><a href="<%= "/subject/#{subject.id}" %>"><%= subject.name %></a></li>
+                    <span  style="cursor:pointer;" onclick="textToSpeech('<%= subject.name %>');">🔊</span>
                   <% end %>
                 </ul>
               </div>
@@ -60,7 +61,19 @@
     <!-- Add Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-      // Add custom JavaScript here if needed
+      function textToSpeech(text) {
+        // Check if speech synthesis is supported by the browser
+        if ('speechSynthesis' in window) {
+          // Create a new SpeechSynthesisUtterance instance
+          var utterance = new SpeechSynthesisUtterance(text);
+
+          // Speak the text
+          speechSynthesis.speak(utterance);
+        } else {
+          // Speech synthesis not supported
+          console.log('Speech synthesis is not supported.');
+        }
+      }
     </script>
   </body>
 </html>
