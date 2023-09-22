@@ -1,6 +1,6 @@
 <script>
 
-function updateRecord(){
+function updateRecord(paisa){
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
     fetch('/game_plays/add_new', {
@@ -9,7 +9,7 @@ function updateRecord(){
             'Content-Type': 'application/json',
             'X-CSRF-Token': csrfToken
           },
-          body: JSON.stringify({amount:10}),
+          body: JSON.stringify({amount: paisa}),
         })
           .then(response => {
             if (!response.ok) {
@@ -83,6 +83,17 @@ const valueGenerator = (angleValue) => {
   }
 };
 
+const getValueFromAngle = (angleValue) => {
+  let value = 0
+  for (let i of rotationValues) {
+    if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
+      value = i.value;
+      break;
+    }
+  }
+  return value;
+};
+
 let count = 0;
 let resultValue = 101;
 spinBtn.addEventListener("click", () => {
@@ -99,7 +110,8 @@ spinBtn.addEventListener("click", () => {
     } else if (count > 15 && myChart.options.rotation == randomDegree) {
       valueGenerator(randomDegree);
       clearInterval(rotationInterval);
-      updateRecord();
+      const valueofMoney=getValueFromAngle(randomDegree);
+      updateRecord(valueofMoney);
       count = 0;
       resultValue = 101;
     }

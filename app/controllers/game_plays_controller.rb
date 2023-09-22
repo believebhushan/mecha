@@ -14,7 +14,7 @@ class GamePlaysController < ApplicationController
   
       if @game_play.save
         # Successfully created the record, render a JSON response
-        render json: { message: 'GamePlay was successfully created', game_play: @game_play }, status: :created
+        render json: { message: 'Ok', }, status: :created
       else
         # Handle validation errors or other failures
         render json: { errors: @game_play.errors.full_messages }, status: :unprocessable_entity
