@@ -3,8 +3,8 @@ class HomeController < ApplicationController
   def index
     if current_user.email!="believebharat@gmail.com"
       render json: {message: "Hello #{current_user.email}"}
+      
     end
-    @papers = Paper.all
-
+    redirect to "/game"
   end
 end
