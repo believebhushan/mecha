@@ -442,3 +442,4 @@ optional_2_subjects.each do |subject_data|
   end
 end
 
+AdminUser.create!(email: 'offerplant@gmail.com', password: 'Offer!2017', password_confirmation: 'Offer!2017')

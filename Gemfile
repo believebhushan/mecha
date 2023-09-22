@@ -73,4 +73,5 @@ end
 
 #auth
 gem 'devise'
+gem 'activeadmin'
 
