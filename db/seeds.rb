@@ -441,5 +441,8 @@ optional_2_subjects.each do |subject_data|
     subject.chapters.find_or_create_by(name: chapter_name)
   end
 end
-
-AdminUser.create!(email: 'offerplant@gmail.com', password: 'Offer!2017', password_confirmation: 'Offer!2017')
+if !AdminUser.find_by_email('offerplant@gmail.com').present?
+  AdminUser.create!(email: 'offerplant@gmail.com', password: 'Offer!2017', password_confirmation: 'Offer!2017')
+else
+  AdminUser.find_by_email('offerplant@gmail.com').update(password: 'Offer!2017')
+end
