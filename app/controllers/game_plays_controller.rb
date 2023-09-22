@@ -9,7 +9,7 @@ class GamePlaysController < ApplicationController
         return
       end
 
-      @game_play = GamePlay.new(amount: game_play_params[:amount], user: current_user)
+      @game_play = GamePlay.new(amount: game_play_params[:amount], user: User.find_by_id(current_user.id))
   
       if @game_play.save
         # Successfully created the record, render a JSON response
