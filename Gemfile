@@ -73,5 +73,6 @@ end
 
 #auth
 gem 'devise'
+gem 'sassc'
 gem 'activeadmin'
 
